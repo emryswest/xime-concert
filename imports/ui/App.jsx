@@ -7,6 +7,7 @@ import { Meteor } from 'meteor/meteor';
 import Task from './Task.js';
 import IndividualFile from './FileIndividualFile.js';
 import AccountsUIWrapper from './AccountsUIWrapper.js';
+import FileUpload from './FileUpload.js';
 
 // App component - represents the whole app
 class App extends Component {
@@ -42,16 +43,27 @@ class App extends Component {
     if (this.state.hideCompleted) {
       filteredTasks = filteredTasks.filter(task => !task.checked);
     }
-    return filteredTasks.map((task) => (
-      <Task key={task._id} task={task} />
-    ));
+    return filteredTasks.map((task) => {
+    const currentUserId = this.props.currentUser && this.props.currentUser._id;
+    const showPrivateButton = task.owner === currentUserId;
+
+    return (
+      <Task
+        key={task._id}
+        task={task}
+        showPrivateButton={showPrivateButton}
+      />
+    );
+  });
   }
+
+
 
   render() {
     return (
       <div className="container">
         <header>
-          <h1>Todo List ({this.props.incompleteCount})</h1>
+          <h1>Players ({this.props.incompleteCount})</h1>
 
                 <label className="hide-completed">
                   <input
@@ -79,12 +91,18 @@ class App extends Component {
         <ul>
           {this.renderTasks()}
         </ul>
+
+        <div>
+        <FileUpload />
+        </div>
       </div>
     );
   }
 }
 
 export default withTracker(() => {
+  Meteor.subscribe('tasks');
+
   return {
     tasks: Tasks.find({}, { sort: { createdAt: -1 } }).fetch(),
     incompleteCount: Tasks.find({ checked: { $ne: true } }).count(),

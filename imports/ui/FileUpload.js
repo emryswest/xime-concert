@@ -113,7 +113,7 @@ class FileUpload extends Component {
     return (
       <div className="container">
         <header>
-          <h1>Upload New File</h1>
+          <h1>Bag</h1>
           <input type="file" id="fileinput" disabled={this.state.inProgress} ref="fileinput"
               onChange={this.uploadIt}/>
         </header>
