@@ -10,7 +10,6 @@ class IndividualFile extends Component {
     };
 
     this.removeFile = this.removeFile.bind(this);
-    this.toggleChecked = this.toggleChecked.bind(this);
 
   }
 
@@ -26,29 +25,16 @@ class IndividualFile extends Component {
     }
 
 
-  toggleChecked() {
-  // Set the checked property to the opposite of its current value
-  UserFiles.update(this.props.fileId, {
-    $set: { checked: !this.props.fileId.checked },
-  });
-}
-
   render() {
 
-const taskClassName = this.props.fileId.checked ? 'checked' : '';
 
     return (
-      <li className={taskClassName}>
+      <li>
         <button className="delete" onClick={this.removeFile}>
           &times;
         </button>
 
-        <input
-          type="checkbox"
-          readOnly
-          checked={!!this.props.fileId.checked}
-          onClick={this.toggleChecked}
-        />
+        <input type="checkbox" />
 
         <span className="text">
           <a href={this.props.fileUrl} className="btn btn-outline btn-primary btn-sm"
