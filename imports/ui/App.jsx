@@ -4,7 +4,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Tasks } from '../api/tasks.js';
 import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
-import Task from './Task.js';
+import Player from './Player.js';
 import IndividualFile from './FileIndividualFile.js';
 import AccountsUIWrapper from './AccountsUIWrapper.js';
 import FileUpload from './FileUpload.js';
@@ -57,6 +57,19 @@ class App extends Component {
   });
   }
 
+  getPlayers() {
+    return [
+      { _id: 1, text: 'This is Player 1' },
+      { _id: 2, text: 'This is Player 2' },
+      { _id: 3, text: 'This is Player 3' },
+    ];
+  }
+
+  renderPlayers() {
+    return this.getPlayers().map((player) => (
+      <Player key={player._id} player={player} />
+    ));
+  }
 
 
   render() {
@@ -77,19 +90,10 @@ class App extends Component {
 
           <AccountsUIWrapper />
 
-               { this.props.currentUser ?
-                 <form className="new-task" onSubmit={this.handleSubmit.bind(this)} >
-                   <input
-                     type="text"
-                     ref="textInput"
-                     placeholder="Type to add new tasks"
-                   />
-                 </form> : ''
-               }
         </header>
 
         <ul>
-          {this.renderTasks()}
+          {this.renderPlayers()}
         </ul>
 
         <div>
