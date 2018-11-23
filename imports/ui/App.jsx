@@ -4,7 +4,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Players } from '../api/players.js';
 import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
-import Player from './Player.js';
+import Task from './Task.js';
 import IndividualFile from './FileIndividualFile.js';
 import AccountsUIWrapper from './AccountsUIWrapper.js';
 import FileUpload from './FileUpload.js';
@@ -25,7 +25,11 @@ class App extends Component {
   // Find the text field via the React ref
   const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
 
+<<<<<<< HEAD
     Meteor.call('players.insert', text);
+=======
+    Meteor.call('tasks.insert', text);
+>>>>>>> bd4b6466a225be53e880d38ff1481d11c4d5e060
 
   ReactDOM.findDOMNode(this.refs.textInput).value = '';
 }
@@ -37,6 +41,7 @@ class App extends Component {
   }
 
 
+<<<<<<< HEAD
   renderPlayers() {
     let filteredPlayers = this.props.players;
     if (this.state.hideCompleted) {
@@ -50,6 +55,21 @@ class App extends Component {
       <Player
         key={player._id}
         player={player}
+=======
+  renderTasks() {
+    let filteredTasks = this.props.tasks;
+    if (this.state.hideCompleted) {
+      filteredTasks = filteredTasks.filter(task => !task.checked);
+    }
+    return filteredTasks.map((task) => {
+    const currentUserId = this.props.currentUser && this.props.currentUser._id;
+    const showPrivateButton = task.owner === currentUserId;
+
+    return (
+      <Task
+        key={task._id}
+        task={task}
+>>>>>>> bd4b6466a225be53e880d38ff1481d11c4d5e060
         showPrivateButton={showPrivateButton}
       />
     );
@@ -79,13 +99,17 @@ class App extends Component {
                    <input
                      type="text"
                      ref="textInput"
+<<<<<<< HEAD
                      placeholder="Type to add new players"
+=======
+                     placeholder="Type to add new tasks"
+>>>>>>> bd4b6466a225be53e880d38ff1481d11c4d5e060
                    />
                  </form>
         </header>
 
         <ul>
-          {this.renderPlayers()}
+          {this.renderTasks()}
         </ul>
 
         <div>
@@ -100,8 +124,13 @@ export default withTracker(() => {
   Meteor.subscribe('players');
 
   return {
+<<<<<<< HEAD
     players: Players.find({}, { sort: { createdAt: -1 } }).fetch(),
     incompleteCount: Players.find({ checked: { $ne: true } }).count(),
+=======
+    tasks: Tasks.find({}, { sort: { createdAt: -1 } }).fetch(),
+    incompleteCount: Tasks.find({ checked: { $ne: true } }).count(),
+>>>>>>> bd4b6466a225be53e880d38ff1481d11c4d5e060
     currentUser: Meteor.user(),
   };
 })(App);
