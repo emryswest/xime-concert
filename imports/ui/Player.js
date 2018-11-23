@@ -20,38 +20,37 @@ togglePrivate() {
   Meteor.call('players.setPrivate', this.props.player._id, ! this.props.player.private);
 }
 
-
-render() {
-  // Give tasks a different className when they are checked off,
+  render() {
+    // Give tasks a different className when they are checked off,
 // so that we can style them nicely in CSS
-  const playerClassName = classnames({
-    checked: this.props.player.checked,
-    private: this.props.player.private,
-  });
+    const playerClassName = classnames({
+      checked: this.props.player.checked,
+      private: this.props.player.private,
+    });
 
-  return (
-    <li className={playerClassName}>
-      <button className="delete" onClick={this.deleteThisPlayer.bind(this)}>
-        &times;
-      </button>
-
-      <input
-        type="checkbox"
-        readOnly
-        checked={!!this.props.player.checked}
-        onClick={this.toggleChecked.bind(this)}
-      />
-
-      { this.props.showPrivateButton ? (
-        <button className="toggle-private" onClick={this.togglePrivate.bind(this)}>
-          { this.props.player.private ? 'Private' : 'Public' }
+    return (
+      <li className={playerClassName}>
+        <button className="delete" onClick={this.deleteThisPlayer.bind(this)}>
+          &times;
         </button>
-      ) : ''}
 
-      <span className="text">
-        <strong>{this.props.player.username}</strong>: {this.props.player.text}
-      </span>
-    </li>
-  );
-}
+        <input
+          type="checkbox"
+          readOnly
+          checked={!!this.props.player.checked}
+          onClick={this.toggleChecked.bind(this)}
+        />
+
+        { this.props.showPrivateButton ? (
+          <button className="toggle-private" onClick={this.togglePrivate.bind(this)}>
+            { this.props.player.private ? 'Private' : 'Public' }
+          </button>
+        ) : ''}
+
+        <span className="text">
+          <strong>{this.props.player.username}</strong>: {this.props.player.text}
+        </span>
+      </li>
+    );
+  }
 }

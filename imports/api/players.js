@@ -32,40 +32,39 @@ Meteor.methods({
       username: Meteor.users.findOne(this.userId).username,
     });
   },
-'players.remove'(playerId) {
-  check(playerId, String);
+  'players.remove'(playerId) {
+    check(playerId, String);
 
-  const player = Players.findOne(playerId);
-  if (player.private && player.owner !== this.userId) {
-    // If the task is private, make sure only the owner can delete it
+    const player = Players.findOne(playerId);
+    if (player.private && player.owner !== this.userId) {
+      // If the task is private, make sure only the owner can delete it
+      throw new Meteor.Error('not-authorized');
+    }
+
+    Players.remove(playerId);
+  },
+  'players.setChecked'(playerId, setChecked) {
+    check(playerId, String);
+    check(setChecked, Boolean);
+    const player = Players.findOne(playerId);
+    if (player.private && player.owner !== this.userId) {
+      // If the task is private, make sure only the owner can check it off
+      throw new Meteor.Error('not-authorized');
+    }
+
+    Players.update(playerId, { $set: { checked: setChecked } });
+  },
+  'players.setPrivate'(playerId, setToPrivate) {
+  check(playerId, String);
+  check(setToPrivate, Boolean);
+
+  const player = Player.findOne(playerId);
+
+  // Make sure only the task owner can make a task private
+  if (player.owner !== this.userId) {
     throw new Meteor.Error('not-authorized');
   }
 
-  Players.remove(playerId);
-},
-
-'players.setChecked'(playerId, setChecked) {
-  check(playerId, String);
-  check(setChecked, Boolean);
-  const player = Players.findOne(taskId);
-  if (player.private && player.owner !== this.userId) {
-    // If the task is private, make sure only the owner can check it off
-    throw new Meteor.Error('not-authorized');
-  }
-
-  Players.update(taskId, { $set: { checked: setChecked } });
-},
-'players.setPrivate'(playerId, setToPrivate) {
-check(taskId, String);
-check(setToPrivate, Boolean);
-
-const task = Players.findOne(playerId);
-
-// Make sure only the task owner can make a task private
-if (player.owner !== this.userId) {
-  throw new Meteor.Error('not-authorized');
-}
-
-Players.update(playerId, { $set: { private: setToPrivate } });
+  Players.update(playerId, { $set: { private: setToPrivate } });
 },
 });
