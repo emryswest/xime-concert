@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 
 import { Tasks } from '../api/tasks.js';
+import { Players } from '../api/players.js';
 import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
 import Player from './Player.js';
@@ -23,9 +24,13 @@ class App extends Component {
   event.preventDefault();
 
   // Find the text field via the React ref
-  const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
+//  const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
 
-    Meteor.call('tasks.insert', text);
+//    Meteor.call('tasks.insert', text);
+
+  const player = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
+
+    Meteor.call('player.insert', player);
 
   // Clear form
   ReactDOM.findDOMNode(this.refs.textInput).value = '';
@@ -57,18 +62,23 @@ class App extends Component {
   });
   }
 
-  getPlayers() {
-    return [
-      { _id: 1, text: 'This is Player 1' },
-      { _id: 2, text: 'This is Player 2' },
-      { _id: 3, text: 'This is Player 3' },
-    ];
-  }
-
   renderPlayers() {
-    return this.getPlayers().map((player) => (
-      <Player key={player._id} player={player} />
-    ));
+    let filteredPlayers = this.props.players;
+    if (this.state.hideCompleted) {
+      filteredPlayers = filteredPlayers.filter(player => !player.checked);
+    }
+    return filteredPlayers.map((player) => {
+    const currentUserId = this.props.currentUser && this.props.currentUser._id;
+    const showPrivateButton = player.owner === currentUserId;
+
+    return (
+      <Player
+        key={player._id}
+        task={player}
+        showPrivateButton={showPrivateButton}
+      />
+    );
+  });
   }
 
 
@@ -109,6 +119,7 @@ export default withTracker(() => {
 
   return {
     tasks: Tasks.find({}, { sort: { createdAt: -1 } }).fetch(),
+    players: Players.find({}).fetch(),
     incompleteCount: Tasks.find({ checked: { $ne: true } }).count(),
     currentUser: Meteor.user(),
   };
