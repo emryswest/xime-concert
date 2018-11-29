@@ -9,6 +9,7 @@ import IndividualFile from './FileIndividualFile.js';
 import AccountsUIWrapper from './AccountsUIWrapper.js';
 import FileUpload from './FileUpload.js';
 import UserList from './UserList.js';
+import { getSelectedUser } from './selecteduser.js';
 
 // App component - represents the whole app
 class App extends Component {
@@ -26,7 +27,7 @@ class App extends Component {
   // Find the text field via the React ref
   const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
 
-    Meteor.call('tasks.insert', text);
+  Meteor.call('tasks.insert', text, getSelectedUser());
 
   ReactDOM.findDOMNode(this.refs.textInput).value = '';
 }
@@ -39,28 +40,20 @@ class App extends Component {
 
   renderTasks() {
     let filteredTasks = this.props.tasks;
-//    if (this.state.hideCompleted) {
-  //    filteredTasks = filteredTasks.filter(task => !task.checked);
-//    }
-    //if the task is undefined (use ===)
-
-//   filteredTasks = filteredTasks.filter(task =>
-//  task.targetuser === undefined || task.targetuser == Meteor.userId()
-//  );
+    // show those for US or for anyone!
+    filteredTasks = filteredTasks.filter(task =>
+     ! task.targetuser || task.targetuser == Meteor.userId()
+    );
 
     return filteredTasks.map((task) => {
-  //  const currentUserId = this.props.currentUser && this.props.currentUser._id;
-//    const showPrivateButton = task.owner === currentUserId;
-  console.log(task.targetuser);
-  console.log(Meteor.userId());
-
-    return (
-      <Task
-        key={task._id}
-        task={task}
-      />
-    );
-  });
+        
+        return (
+          <Task
+            key={task._id}
+            task={task}
+          />
+        );
+    });
   }
 
 

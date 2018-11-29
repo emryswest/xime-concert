@@ -4,7 +4,6 @@ import { check } from 'meteor/check';
 
 export const Tasks = new Mongo.Collection('tasks');
 
-selectedUser = undefined;
 
 if (Meteor.isServer) {
   // This code only runs on the server
@@ -19,19 +18,20 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
-  'tasks.insert'(text) {
+  // you have to specify the selectedUser so it gets sent to the server
+  'tasks.insert'(text,selectedUser) {
 
     // Make sure the user is logged in before inserting a task
     if (! this.userId) {
       throw new Meteor.Error('not-authorized');
     }
-
+    user = selectedUser;
     Tasks.insert({
-      text,
+      text: text,
       createdAt: new Date(),
       owner: this.userId,
+      targetuser: user,
       username: Meteor.users.findOne(this.userId).username,
-      targetuser: selectedUser,
     });
   },
   'tasks.remove'(taskId) {

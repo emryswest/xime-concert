@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { UserFiles } from '../api/files.js';
+import { getSelectedUser } from '../ui/selecteduser';
 
 class IndividualFile extends Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class IndividualFile extends Component {
   sendTask() {
 //    console.log(this.props);
     var text = this.props.fileUrl;
-    Meteor.call('tasks.insert', text);
+    Meteor.call('tasks.insert', text, getSelectedUser());
   }
 
 
