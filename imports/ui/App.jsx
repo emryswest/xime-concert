@@ -8,6 +8,7 @@ import Task from './Task.js';
 import IndividualFile from './FileIndividualFile.js';
 import AccountsUIWrapper from './AccountsUIWrapper.js';
 import FileUpload from './FileUpload.js';
+import UserList from './UserList.js';
 
 // App component - represents the whole app
 class App extends Component {
@@ -27,7 +28,6 @@ class App extends Component {
 
     Meteor.call('tasks.insert', text);
 
-  // Clear form
   ReactDOM.findDOMNode(this.refs.textInput).value = '';
 }
 
@@ -40,23 +40,26 @@ class App extends Component {
 
   renderTasks() {
     let filteredTasks = this.props.tasks;
-    if (this.state.hideCompleted) {
-      filteredTasks = filteredTasks.filter(task => !task.checked);
-    }
+//    if (this.state.hideCompleted) {
+  //    filteredTasks = filteredTasks.filter(task => !task.checked);
+//    }
+    //if the task is undefined (use ===)
+    filteredTasks = filteredTasks.filter(task =>
+    task.targetuser === undefined || task.targetuser == Meteor.userId()
+    );
+    console.log(filteredTasks);
     return filteredTasks.map((task) => {
-    const currentUserId = this.props.currentUser && this.props.currentUser._id;
-    const showPrivateButton = task.owner === currentUserId;
+  //  const currentUserId = this.props.currentUser && this.props.currentUser._id;
+//    const showPrivateButton = task.owner === currentUserId;
 
     return (
       <Task
         key={task._id}
         task={task}
-        showPrivateButton={showPrivateButton}
       />
     );
   });
   }
-
 
 
   render() {
@@ -77,16 +80,18 @@ class App extends Component {
 
           <AccountsUIWrapper />
 
-               { this.props.currentUser ?
-                 <form className="new-task" onSubmit={this.handleSubmit.bind(this)} >
+                  <form className="new-task" onSubmit={this.handleSubmit.bind(this)} >
                    <input
                      type="text"
                      ref="textInput"
                      placeholder="Type to add new tasks"
                    />
-                 </form> : ''
-               }
+                 </form>
         </header>
+
+        <div>
+        <UserList />
+        </div>
 
         <ul>
           {this.renderTasks()}
@@ -102,6 +107,7 @@ class App extends Component {
 
 export default withTracker(() => {
   Meteor.subscribe('tasks');
+
 
   return {
     tasks: Tasks.find({}, { sort: { createdAt: -1 } }).fetch(),

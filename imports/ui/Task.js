@@ -29,26 +29,11 @@ togglePrivate() {
     });
 
     return (
-      <li className={taskClassName}>
-        <button className="delete" onClick={this.deleteThisTask.bind(this)}>
-          &times;
-        </button>
-
-        <input
-          type="checkbox"
-          readOnly
-          checked={!!this.props.task.checked}
-          onClick={this.toggleChecked.bind(this)}
-        />
-
-        { this.props.showPrivateButton ? (
-          <button className="toggle-private" onClick={this.togglePrivate.bind(this)}>
-            { this.props.task.private ? 'Private' : 'Public' }
-          </button>
-        ) : ''}
-
+      <li className={taskClassName} onClick={this.deleteThisTask.bind(this)}>
         <span className="text">
-          <strong>{this.props.task.username}</strong>: {this.props.task.text}
+        <strong>{this.props.task.username}</strong>: { this.props.task.text.match(/^http.*\.(png|jpg|jpeg|gif|bmp)$/i) ? (
+   <img className="taskthumb" src={ this.props.task.text }/>
+ ) : this.props.task.text }
         </span>
       </li>
     );

@@ -89,7 +89,7 @@ li .text {
 }
 
 li.checked {
-  color: #888;
+  background: #c4d4ed;
 }
 
 li.checked .text {
@@ -122,4 +122,21 @@ header .hide-completed {
   .new-task input {
     padding-bottom: 5px;
   }
+}
+
+.filethumb {
+  width: 3em;
+  height: 3em;
+}
+.taskthumb {
+  max-width: 100%;
+  max-height: 80%;
+}
+
+.individual-user {
+
+}
+
+.individual-file {
+
 }

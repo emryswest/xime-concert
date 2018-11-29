@@ -4,6 +4,8 @@ import { check } from 'meteor/check';
 
 export const Tasks = new Mongo.Collection('tasks');
 
+selectedUser = undefined;
+
 if (Meteor.isServer) {
   // This code only runs on the server
   Meteor.publish('tasks', function tasksPublication() {
@@ -30,6 +32,7 @@ Meteor.methods({
       createdAt: new Date(),
       owner: this.userId,
       username: Meteor.users.findOne(this.userId).username,
+      targetuser: selectedUser,
     });
   },
   'tasks.remove'(taskId) {
