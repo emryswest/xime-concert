@@ -8,24 +8,15 @@ import PropTypes from 'prop-types';
 class UserList extends Component {
   constructor(props) {
     super(props);
-    this.state = {toggleSelected: false};
 
     this.clickUser = this.clickUser.bind(this);
-    this.clickToggle = this.clickToggle.bind(this);
 
-  }
-
-  clickToggle() {
-    this.setState(state => ({
-      toggleSelected: !state.toggleSelected
-    }));
   }
 
   clickUser(aUser) {
-    console.log(aUser);
-    // I don't think this.clickUser on line 28 can contain () at the end
-    // so I don't know how to pass the prop
-    selectedUser = aUser;
+    let intermediate = aUser._id;
+    selectedUser = intermediate;
+//    console.log(intermediate);
   }
 
   render() {
@@ -34,7 +25,7 @@ class UserList extends Component {
     let display = users.map((aUser, key) => {
       // Send out components that show details of each file
       return <div className="individual-user" key={key}>
-      <li onClick={this.clickUser.bind(this, aUser)}>{aUser.username}{this.state.toggleSelected ? 'You selected this user' : ''}</li>
+      <li onClick={this.clickUser.bind(this, aUser)} targetuser={selectedUser}>{aUser.username}</li>
       </div>
     })
 
@@ -46,7 +37,6 @@ class UserList extends Component {
         <ul>
         {display}
         </ul>
-
       </div>
     );
   }

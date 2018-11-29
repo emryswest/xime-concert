@@ -26,7 +26,7 @@ class IndividualFile extends Component {
     }
 
   sendTask() {
-    console.log(this.props);
+//    console.log(this.props);
     var text = this.props.fileUrl;
     Meteor.call('tasks.insert', text);
   }

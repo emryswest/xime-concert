@@ -43,13 +43,16 @@ class App extends Component {
   //    filteredTasks = filteredTasks.filter(task => !task.checked);
 //    }
     //if the task is undefined (use ===)
-    filteredTasks = filteredTasks.filter(task =>
-    task.targetuser === undefined || task.targetuser == Meteor.userId()
-    );
-    console.log(filteredTasks);
+
+   filteredTasks = filteredTasks.filter(task =>
+  task.targetuser === undefined || task.targetuser == Meteor.userId()
+  );
+
     return filteredTasks.map((task) => {
   //  const currentUserId = this.props.currentUser && this.props.currentUser._id;
 //    const showPrivateButton = task.owner === currentUserId;
+  console.log(task.targetuser);
+  console.log(Meteor.userId());
 
     return (
       <Task
