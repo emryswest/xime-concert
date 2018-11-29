@@ -16,9 +16,6 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      hideCompleted: false,
-    };
   }
 
   handleSubmit(event) {
@@ -32,21 +29,22 @@ class App extends Component {
   ReactDOM.findDOMNode(this.refs.textInput).value = '';
 }
 
-  toggleHideCompleted() {
-    this.setState({
-      hideCompleted: !this.state.hideCompleted,
-    });
-  }
 
   renderTasks() {
-    let filteredTasks = this.props.tasks;
+    let myTasks = this.props.tasks;
+    let recentTask;
+
     // show those for US or for anyone!
-    filteredTasks = filteredTasks.filter(task =>
-     ! task.targetuser || task.targetuser == Meteor.userId()
+    myTasks = myTasks.filter(task =>
+      task.targetuser == Meteor.userId()
     );
 
-    return filteredTasks.map((task) => {
-        
+    recentTask = myTasks.length > 0 ? myTasks.slice(0, 1) : 0;
+    console.log(recentTask);
+
+
+    return myTasks.map((task) => {
+
         return (
           <Task
             key={task._id}
@@ -61,27 +59,8 @@ class App extends Component {
     return (
       <div className="container">
         <header>
-          <h1>Players ({this.props.incompleteCount})</h1>
-
-                <label className="hide-completed">
-                  <input
-                    type="checkbox"
-                    readOnly
-                    checked={this.state.hideCompleted}
-                    onClick={this.toggleHideCompleted.bind(this)}
-                  />
-                  Hide Completed Players
-                </label>
-
+          <h1>Users</h1>
           <AccountsUIWrapper />
-
-                  <form className="new-task" onSubmit={this.handleSubmit.bind(this)} >
-                   <input
-                     type="text"
-                     ref="textInput"
-                     placeholder="Type to add new tasks"
-                   />
-                 </form>
         </header>
 
         <div>

@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
+import { setSelectedUser, getSelectedUser } from '../ui/selecteduser';
 
 export const Tasks = new Mongo.Collection('tasks');
 
@@ -33,6 +34,7 @@ Meteor.methods({
       targetuser: user,
       username: Meteor.users.findOne(this.userId).username,
     });
+    setSelectedUser(undefined);
   },
   'tasks.remove'(taskId) {
     check(taskId, String);

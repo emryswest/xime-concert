@@ -42,13 +42,10 @@ class IndividualFile extends Component {
           &times;
         </button>
 
-        <input type="checkbox" />
-
-        <button className="send-to-task" onClick={this.sendTask}>SEND</button>
 
         <span className="text">
           <a href={this.props.fileUrl} className="btn btn-outline btn-primary btn-sm"
-           target="_blank"><strong>{this.props.fileName}</strong></a>
+           target="_blank"><strong></strong></a>
            { this.props.fileUrl.match(/^http.*\.(png|jpg|jpeg|gif|bmp)$/i) ? (
 	        <img onClick={this.sendTask} className="filethumb" src={ this.props.fileUrl }/>
            ) : '' }

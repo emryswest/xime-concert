@@ -118,7 +118,7 @@ class FileUpload extends Component {
               onChange={this.uploadIt}/>
         </header>
 
-        <ul>
+        <ul className="bag">
           {display}
         </ul>
       </div>

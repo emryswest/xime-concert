@@ -20,26 +20,25 @@ class UserList extends Component {
     } else {
         setSelectedUser(intermediate);
         console.log(getSelectedUser());
-    }	    
+    }
     this.setState({currentSelection: getSelectedUser()}); // force a re-render
   }
 
 
 
   render() {
-    let users = Meteor.users.find({})
+    let users = Meteor.users.find({});
     let display = users.map((aUser, key) => {
       // Send out components that show details of each file
+  if (aUser._id !== Meteor.userId()) {
       return <div key={key}>
       <li className={aUser._id == getSelectedUser() ? 'highlighted-user' : 'individual-user'} onClick={this.clickUser.bind(this, aUser)}>{aUser.username}</li>
       </div>
+    }
     })
 
     return (
       <div className="container">
-        <header>
-          <h1>Users</h1>
-        </header>
         <ul>
         {display}
         </ul>
