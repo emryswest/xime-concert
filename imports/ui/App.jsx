@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 
-import { Tasks } from '../api/tasks.js';
+import { Players } from '../api/players.js';
 import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
 import Task from './Task.js';
@@ -26,7 +26,11 @@ class App extends Component {
   // Find the text field via the React ref
   const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
 
+<<<<<<< HEAD
+    Meteor.call('players.insert', text);
+=======
     Meteor.call('tasks.insert', text);
+>>>>>>> bd4b6466a225be53e880d38ff1481d11c4d5e060
 
   ReactDOM.findDOMNode(this.refs.textInput).value = '';
 }
@@ -38,6 +42,21 @@ class App extends Component {
   }
 
 
+<<<<<<< HEAD
+  renderPlayers() {
+    let filteredPlayers = this.props.players;
+    if (this.state.hideCompleted) {
+      filteredPlayers = filteredPlayers.filter(player => !player.checked);
+    }
+    return filteredPlayers.map((player) => {
+    const currentUserId = this.props.currentUser && this.props.currentUser._id;
+    const showPrivateButton = player.owner === currentUserId;
+
+    return (
+      <Player
+        key={player._id}
+        player={player}
+=======
   renderTasks() {
     let filteredTasks = this.props.tasks;
 //    if (this.state.hideCompleted) {
@@ -56,6 +75,11 @@ class App extends Component {
       <Task
         key={task._id}
         task={task}
+<<<<<<< HEAD
+=======
+>>>>>>> bd4b6466a225be53e880d38ff1481d11c4d5e060
+        showPrivateButton={showPrivateButton}
+>>>>>>> 331b14543b92fe70535ae18563622c79ac76d28e
       />
     );
   });
@@ -75,7 +99,7 @@ class App extends Component {
                     checked={this.state.hideCompleted}
                     onClick={this.toggleHideCompleted.bind(this)}
                   />
-                  Hide Completed Tasks
+                  Hide Completed Players
                 </label>
 
           <AccountsUIWrapper />
@@ -84,7 +108,11 @@ class App extends Component {
                    <input
                      type="text"
                      ref="textInput"
+<<<<<<< HEAD
+                     placeholder="Type to add new players"
+=======
                      placeholder="Type to add new tasks"
+>>>>>>> bd4b6466a225be53e880d38ff1481d11c4d5e060
                    />
                  </form>
         </header>
@@ -106,12 +134,17 @@ class App extends Component {
 }
 
 export default withTracker(() => {
-  Meteor.subscribe('tasks');
+  Meteor.subscribe('players');
 
 
   return {
+<<<<<<< HEAD
+    players: Players.find({}, { sort: { createdAt: -1 } }).fetch(),
+    incompleteCount: Players.find({ checked: { $ne: true } }).count(),
+=======
     tasks: Tasks.find({}, { sort: { createdAt: -1 } }).fetch(),
     incompleteCount: Tasks.find({ checked: { $ne: true } }).count(),
+>>>>>>> bd4b6466a225be53e880d38ff1481d11c4d5e060
     currentUser: Meteor.user(),
   };
 })(App);
