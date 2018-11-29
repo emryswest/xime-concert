@@ -19,13 +19,15 @@ class UserList extends Component {
 //    console.log(intermediate);
   }
 
+
+
   render() {
 
     let users = Meteor.users.find({})
     let display = users.map((aUser, key) => {
       // Send out components that show details of each file
-      return <div className="individual-user" key={key}>
-      <li onClick={this.clickUser.bind(this, aUser)} targetuser={selectedUser}>{aUser.username}</li>
+      return <div key={key}>
+      <li className={aUser == selectedUser ? 'highlighted-user' : 'individual-user'} onClick={this.clickUser.bind(this, aUser)} targetuser={selectedUser}>{aUser.username}</li>
       </div>
     })
 

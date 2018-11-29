@@ -133,7 +133,11 @@ header .hide-completed {
   max-height: 80%;
 }
 
-.individual-user {
+li.individual-user {
+
+}
+
+li.highlighted-user {
   background: #f6f7de;
 }
 

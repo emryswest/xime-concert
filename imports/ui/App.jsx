@@ -44,9 +44,9 @@ class App extends Component {
 //    }
     //if the task is undefined (use ===)
 
-   filteredTasks = filteredTasks.filter(task =>
-  task.targetuser === undefined || task.targetuser == Meteor.userId()
-  );
+//   filteredTasks = filteredTasks.filter(task =>
+//  task.targetuser === undefined || task.targetuser == Meteor.userId()
+//  );
 
     return filteredTasks.map((task) => {
   //  const currentUserId = this.props.currentUser && this.props.currentUser._id;
