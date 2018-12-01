@@ -33,18 +33,23 @@ class App extends Component {
   renderTasks() {
     let myTasks = this.props.tasks;
     let recentTask;
+  //  let index1;
 
     // show those for US or for anyone!
     myTasks = myTasks.filter(task =>
       task.targetuser == Meteor.userId()
     );
 
-    recentTask = myTasks.length > 0 ? myTasks.slice(0, 1) : 0;
-    console.log(recentTask);
+//    myTasks = myTasks.reverse();
+
+    myTasks = myTasks.length > 1 ? [ myTasks[myTasks.length - 1] ] : myTasks;
+
+//    index1 = myTasks.find[1];
+
+//    console.log(index1);
 
 
     return myTasks.map((task) => {
-
         return (
           <Task
             key={task._id}
@@ -84,7 +89,7 @@ export default withTracker(() => {
 
 
   return {
-    tasks: Tasks.find({}, { sort: { createdAt: -1 } }).fetch(),
+    tasks: Tasks.find({}, { sort: { createdAt: 1 } }).fetch(),
     incompleteCount: Tasks.find({ checked: { $ne: true } }).count(),
     currentUser: Meteor.user(),
   };

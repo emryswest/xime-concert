@@ -91,7 +91,12 @@ class FileUpload extends Component {
 //  debug("Rendering FileUpload",this.props.docsReadyYet);
 //  if (this.props.files && this.props.docsReadyYet) {
 
+
     let fileCursors = this.props.files;
+    fileCursors = fileCursors.filter(file =>
+      file.userId == Meteor.userId()
+    );
+
 
     // Run through each file that the user has stored
     // (make sure the subscription only sends files owned by this user)
