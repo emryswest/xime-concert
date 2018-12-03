@@ -11,73 +11,82 @@ import FileUpload from './FileUpload.js';
 import UserList from './UserList.js';
 import { getSelectedUser } from './selecteduser.js';
 
-// App component - represents the whole app
-class App extends Component {
-  constructor(props) {
-    super(props);
+  // App component - represents the whole app
+  class App extends Component {
+    constructor(props) {
+      super(props);
 
+    }
+
+    handleSubmit(event) {
+    event.preventDefault();
+
+    // Find the text field via the React ref
+    const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
+
+    Meteor.call('tasks.insert', text, getSelectedUser());
+
+    ReactDOM.findDOMNode(this.refs.textInput).value = '';
   }
 
-  handleSubmit(event) {
-  event.preventDefault();
 
-  // Find the text field via the React ref
-  const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
+    renderTasks() {
+      let myTasks = this.props.tasks;
+      let recentTask;
+    //  let index1;
 
-  Meteor.call('tasks.insert', text, getSelectedUser());
+      // show those for US or for anyone!
+      myTasks = myTasks.filter(task =>
+        task.targetuser == Meteor.userId()
+      );
 
-  ReactDOM.findDOMNode(this.refs.textInput).value = '';
-}
+  //    myTasks = myTasks.reverse();
+
+      myTasks = myTasks.length > 1 ? [ myTasks[myTasks.length - 1] ] : myTasks;
+
+  //    index1 = myTasks.find[1];
+
+  //    console.log(index1);
 
 
-  renderTasks() {
-    let myTasks = this.props.tasks;
-    let recentTask;
-  //  let index1;
+      return myTasks.map((task) => {
+          return (
+            <Task
+              key={task._id}
+              task={task}
+            />
+          );
+      });
+    }
 
-    // show those for US or for anyone!
-    myTasks = myTasks.filter(task =>
+    passMyTasks() {
+      let passMyTasks = this.props.tasks;
+      passMyTasks = passMyTasks.filter(task =>
       task.targetuser == Meteor.userId()
-    );
-
-//    myTasks = myTasks.reverse();
-
-    myTasks = myTasks.length > 1 ? [ myTasks[myTasks.length - 1] ] : myTasks;
-
-//    index1 = myTasks.find[1];
-
-//    console.log(index1);
-
-
-    return myTasks.map((task) => {
-        return (
-          <Task
-            key={task._id}
-            task={task}
-          />
-        );
-    });
-  }
-
-
+      );
+      return (
+        passMyTasks
+      )
+    }
   render() {
+let passMyTasks = this.passMyTasks();
+
     return (
-      <div className="container">
+      <div>
+        <div className="app-container">
         <header>
-          <h1>Users</h1>
-          <AccountsUIWrapper />
+        <AccountsUIWrapper />
+          <h1>Players</h1>
+
         </header>
+          <UserList passMyTasks={passMyTasks}/>
+          <div className="material">
+            <ul>
+              {this.renderTasks()}
+            </ul>
+          </ div>
 
-        <div>
-        <UserList />
-        </div>
-
-        <ul>
-          {this.renderTasks()}
-        </ul>
-
-        <div>
-        <FileUpload />
+          <FileUpload />
         </div>
       </div>
     );
@@ -85,7 +94,6 @@ class App extends Component {
 }
 
 export default withTracker(() => {
-  Meteor.subscribe('players');
 
 
   return {

@@ -28,20 +28,20 @@ class UserList extends Component {
 
   render() {
     let users = Meteor.users.find({});
+    let passMyTasks = this.props.passMyTasks;
+    console.log(passMyTasks.length);
     let display = users.map((aUser, key) => {
       // Send out components that show details of each file
   if (aUser._id !== Meteor.userId()) {
-      return <div key={key}>
-      <li className={aUser._id == getSelectedUser() ? 'highlighted-user' : 'individual-user'} onClick={this.clickUser.bind(this, aUser)}>{aUser.username}</li>
+      return <div className={aUser._id == getSelectedUser() ? 'highlighted-user' : 'individual-user'} onClick={this.clickUser.bind(this, aUser)} key={key}>
+      <li>{aUser.username}</li>
       </div>
     }
     })
 
     return (
-      <div className="container">
-        <ul>
+      <div className={passMyTasks.length > 0 ? "players-container-condensed" : "players-container"}>
         {display}
-        </ul>
       </div>
     );
   }

@@ -37,7 +37,7 @@ class IndividualFile extends Component {
 
 
     return (
-      <li className="individual-file">
+      <li className="bag-item">
         <button className="delete" onClick={this.removeFile}>
           &times;
         </button>
