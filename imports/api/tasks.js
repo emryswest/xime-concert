@@ -40,10 +40,6 @@ Meteor.methods({
     check(taskId, String);
 
     const task = Tasks.findOne(taskId);
-    if (task.private && task.owner !== this.userId) {
-      // If the task is private, make sure only the owner can delete it
-      throw new Meteor.Error('not-authorized');
-    }
 
     Tasks.remove(taskId);
   },

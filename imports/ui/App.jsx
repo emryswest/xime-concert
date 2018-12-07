@@ -39,6 +39,9 @@ import { getSelectedUser } from './selecteduser.js';
       myTasks = myTasks.filter(task =>
         task.targetuser == Meteor.userId()
       );
+      if (myTasks.length > 1) {
+  Meteor.call('tasks.remove', myTasks[0]._id);
+}
 
   //    myTasks = myTasks.reverse();
 
