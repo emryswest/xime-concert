@@ -31,7 +31,8 @@ class UserList extends Component {
     let passMyTasks = this.props.passMyTasks;
     console.log(passMyTasks.length);
     let numberOfUsers = Meteor.users.find().count();
-    let display = users.map((aUser, key) => {
+    let display
+    display = users.map((aUser, key) => {
       // Send out components that show details of each file
 
   if (aUser._id !== Meteor.userId() && aUser.username !== "Sender1" && aUser.username !== "Sender2" && aUser.username !== "Sender3" && aUser.username !== "Sender4") {
