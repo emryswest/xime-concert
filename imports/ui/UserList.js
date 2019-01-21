@@ -30,9 +30,11 @@ class UserList extends Component {
     let users = Meteor.users.find({});
     let passMyTasks = this.props.passMyTasks;
     console.log(passMyTasks.length);
+    let numberOfUsers = Meteor.users.find().count();
     let display = users.map((aUser, key) => {
       // Send out components that show details of each file
-  if (aUser._id !== Meteor.userId()) {
+
+  if (aUser._id !== Meteor.userId() && aUser.username !== "Sender1" && aUser.username !== "Sender2" && aUser.username !== "Sender3" && aUser.username !== "Sender4") {
       return <div className={aUser._id == getSelectedUser() ? 'highlighted-user' : 'individual-user'} onClick={this.clickUser.bind(this, aUser)} key={key}>
       <li>{aUser.username}</li>
       </div>
