@@ -36,9 +36,10 @@ import { getSelectedUser } from './selecteduser.js';
     //  let index1;
 
       // show those for US or for anyone!
-      myTasks = myTasks.filter(task =>
+  /*  (April 8 2019)  myTasks = myTasks.filter(task =>
         task.targetuser == Meteor.userId()
       );
+  */
       if (myTasks.length > 1) {
   Meteor.call('tasks.remove', myTasks[0]._id);
 }
@@ -79,7 +80,6 @@ let passMyTasks = this.passMyTasks();
         <div className="app-container">
         <header>
         <AccountsUIWrapper />
-          <h1>Players</h1>
 
         </header>
           <UserList passMyTasks={passMyTasks}/>
